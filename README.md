@@ -2,7 +2,7 @@
 ## What's this?
 This app was developed as qualification test for some company.
 
-##Preview
+## Preview
 https://efimshikanov.github.io/todos-app/
 
 ## How to run?
