@@ -1,6 +1,6 @@
 # todos-app
 ## What's this?
-This app was developed as qualification test for some company.
+This app was developed as qualification test.
 
 ## Preview
 https://efimshikanov.github.io/todos-app/
