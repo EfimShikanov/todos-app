@@ -8,31 +8,33 @@ import { Filter } from "../../app/types";
 const TodosList: React.FC = () => {
   const dispatch = useAppDispatch();
   const todos = useAppSelector((state) => state.todos.todos);
-  const filter = useAppSelector((state) => state.todos.filter);
+  const filter: Filter = useAppSelector((state) => state.todos.filter);
 
   const filterClickHandler = (value: Filter) => {
     dispatch(setFilter(value));
   };
 
   const renderTodos = () => {
-    if (filter === "all") {
-      return todos.map((todo) => {
-        return <TodosListItem key={todo.id} todo={todo} />;
-      });
-    }
-    if (filter === "active") {
-      return todos.map((todo) => {
-        if (!todo.isDone) {
+    switch (filter) {
+      case "all": {
+        return todos.map((todo) => {
           return <TodosListItem key={todo.id} todo={todo} />;
-        }
-      });
-    }
-    if (filter === "done") {
-      return todos.map((todo) => {
-        if (todo.isDone) {
-          return <TodosListItem key={todo.id} todo={todo} />;
-        }
-      });
+        });
+      }
+      case "active": {
+        return todos.map((todo) => {
+          if (!todo.isDone) {
+            return <TodosListItem key={todo.id} todo={todo} />;
+          }
+        });
+      }
+      case "done": {
+        return todos.map((todo) => {
+          if (todo.isDone) {
+            return <TodosListItem key={todo.id} todo={todo} />;
+          }
+        });
+      }
     }
   };
 
