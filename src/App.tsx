@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './App.module.scss';
 import TodosInput from "./components/todosInput/TodosInput";
 import TodosList from "./components/todosList/TodosList";
+import TodosFooter from "./components/todosFooter/TodosFooter";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <div className={styles.header}>todos</div>
       <TodosInput />
       <TodosList />
+      <TodosFooter />
     </div>
   );
 }

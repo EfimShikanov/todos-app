@@ -1,12 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ApplicationState, UpdatedTodo } from "../app/types";
+import { ApplicationState, UpdatedTodo, Todo } from "../app/types";
+
+let todos: Todo[];
+
+if (localStorage.todosStorage) {
+  todos = JSON.parse(localStorage.todosStorage);
+} else {
+  localStorage.setItem(
+    "todosStorage",
+    JSON.stringify([
+      { id: 0, value: "Найти вакансию", isDone: true, isEditing: false },
+      { id: 1, value: "Создать приложение", isDone: false, isEditing: false },
+      {
+        id: 2,
+        value: "Попасть на стажировку",
+        isDone: false,
+        isEditing: false,
+      },
+    ])
+  );
+  todos = JSON.parse(localStorage.todosStorage);
+}
 
 const initialState: ApplicationState = {
-  todos: [
-    { id: 0, value: "Найти вакансию", isDone: true, isEditing: false },
-    { id: 1, value: "Создать приложение", isDone: false, isEditing: false },
-    { id: 2, value: "Попасть на стажировку", isDone: false, isEditing: false },
-  ],
+  todos,
   filter: "all",
 };
 
@@ -29,6 +46,14 @@ export const todosSlice = createSlice({
         state.todos.splice(todoIndex, 1);
       }
     },
+    deleteDoneTodos: (state) => {
+      state.todos.forEach((todo) => {
+        if (todo.isDone) {
+          const todoIndex = state.todos.indexOf(todo);
+          state.todos.splice(todoIndex, 1);
+        }
+      });
+    },
     updateTodoValue: (state, action: PayloadAction<UpdatedTodo>) => {
       const todo = state.todos.find((todo) => todo.id === action.payload.id);
       if (todo) {
@@ -43,15 +68,15 @@ export const todosSlice = createSlice({
       }
     },
     setIsEditing: (state, action: PayloadAction<number>) => {
-      state.todos.map((todo) => {
-        todo.isEditing = todo.id === action.payload;
+      state.todos.forEach((todo) => {
+        todo.id !== action.payload &&
+          (todo.isEditing = todo.id === action.payload);
+        todo.id === action.payload && (todo.isEditing = !todo.isEditing);
       });
     },
     setFilter: (state, action: PayloadAction<"all" | "active" | "done">) => {
       state.filter = action.payload;
-      state.todos.map((todo) => {
-        todo.isEditing = false;
-      });
+      state.todos.forEach((todo) => (todo.isEditing = false));
     },
   },
 });
@@ -59,6 +84,7 @@ export const todosSlice = createSlice({
 export const {
   addTodo,
   deleteTodo,
+  deleteDoneTodos,
   updateTodoValue,
   setIsDone,
   setIsEditing,
