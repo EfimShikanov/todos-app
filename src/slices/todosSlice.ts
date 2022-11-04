@@ -33,7 +33,7 @@ export const todosSlice = createSlice({
   reducers: {
     addTodo: (state, action: PayloadAction<string>) => {
       state.todos.push({
-        id: Math.max(...state.todos.map(todo => todo.id)) + 1,
+        id: state.todos.length ? Math.max(...state.todos.map(todo => todo.id)) + 1 : 0,
         value: action.payload,
         isEditing: false,
         isDone: false,
@@ -49,12 +49,10 @@ export const todosSlice = createSlice({
       localStorage.todosStorage = JSON.stringify(state.todos);
     },
     deleteDoneTodos: (state) => {
-      state.todos.forEach((todo) => {
-        if (todo.isDone) {
-          const todoIndex = state.todos.indexOf(todo);
-          state.todos.splice(todoIndex, 1);
-        }
-      });
+      state.todos.filter((todo) => todo.isDone).forEach((todo) => {
+        const todoIndex = state.todos.indexOf(todo);
+        state.todos.splice(todoIndex, 1);
+      })
       localStorage.todosStorage = JSON.stringify(state.todos);
     },
     updateTodoValue: (state, action: PayloadAction<UpdatedTodo>) => {
