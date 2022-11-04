@@ -33,7 +33,7 @@ export const todosSlice = createSlice({
   reducers: {
     addTodo: (state, action: PayloadAction<string>) => {
       state.todos.push({
-        id: state.todos.length,
+        id: Math.max(...state.todos.map(todo => todo.id)) + 1,
         value: action.payload,
         isEditing: false,
         isDone: false,
