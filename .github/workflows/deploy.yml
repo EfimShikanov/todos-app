@@ -14,13 +14,12 @@ jobs:
       - name: Configure Node
         uses: actions/setup-node@v1
         with:
-          node-version: '18.4.0'
+          node-version: "18.4.0"
 
       - name: Install
-        run: |
-          npm ci
-          npm run build
-
+        run: npm ci
+      - name: Build
+        run: npm run build
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
