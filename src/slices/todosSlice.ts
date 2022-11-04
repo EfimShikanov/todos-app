@@ -38,6 +38,7 @@ export const todosSlice = createSlice({
         isEditing: false,
         isDone: false,
       });
+      localStorage.todosStorage = JSON.stringify(state.todos);
     },
     deleteTodo: (state, action: PayloadAction<number>) => {
       const todo = state.todos.find((item) => item.id === action.payload);
@@ -45,6 +46,7 @@ export const todosSlice = createSlice({
         const todoIndex = state.todos.indexOf(todo);
         state.todos.splice(todoIndex, 1);
       }
+      localStorage.todosStorage = JSON.stringify(state.todos);
     },
     deleteDoneTodos: (state) => {
       state.todos.forEach((todo) => {
@@ -53,6 +55,7 @@ export const todosSlice = createSlice({
           state.todos.splice(todoIndex, 1);
         }
       });
+      localStorage.todosStorage = JSON.stringify(state.todos);
     },
     updateTodoValue: (state, action: PayloadAction<UpdatedTodo>) => {
       const todo = state.todos.find((todo) => todo.id === action.payload.id);
@@ -60,12 +63,14 @@ export const todosSlice = createSlice({
         todo.value = action.payload.value;
         todo.isEditing = false;
       }
+      localStorage.todosStorage = JSON.stringify(state.todos);
     },
     setIsDone: (state, action: PayloadAction<number>) => {
       const todo = state.todos.find((todo) => todo.id === action.payload);
       if (todo) {
         todo.isDone = !todo.isDone;
       }
+      localStorage.todosStorage = JSON.stringify(state.todos);
     },
     setIsEditing: (state, action: PayloadAction<number>) => {
       state.todos.forEach((todo) => {
