@@ -22,18 +22,18 @@ const TodosList: React.FC = () => {
         });
       }
       case "active": {
-        return todos.map((todo) => {
-          if (!todo.isDone) {
+        return todos
+          .filter((todo) => !todo.isDone)
+          .map((todo) => {
             return <TodosListItem key={todo.id} todo={todo} />;
-          }
-        });
+          });
       }
       case "done": {
-        return todos.map((todo) => {
-          if (todo.isDone) {
+        return todos
+          .filter((todo) => todo.isDone)
+          .map((todo) => {
             return <TodosListItem key={todo.id} todo={todo} />;
-          }
-        });
+          });
       }
     }
   };
