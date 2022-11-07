@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ApplicationState, UpdatedTodo, Todo } from "../app/types";
 
-let todos: Todo[];
+let todosList: Todo[];
 
 if (localStorage.todosStorage) {
-  todos = JSON.parse(localStorage.todosStorage);
+  todosList = JSON.parse(localStorage.todosStorage);
 } else {
   localStorage.setItem(
     "todosStorage",
@@ -19,11 +19,11 @@ if (localStorage.todosStorage) {
       },
     ])
   );
-  todos = JSON.parse(localStorage.todosStorage);
+  todosList = JSON.parse(localStorage.todosStorage);
 }
 
 const initialState: ApplicationState = {
-  todos,
+  todosList,
   filter: "all",
 };
 
@@ -32,46 +32,50 @@ export const todosSlice = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action: PayloadAction<string>) => {
-      state.todos.push({
-        id: state.todos.length ? Math.max(...state.todos.map(todo => todo.id)) + 1 : 0,
+      state.todosList.push({
+        id: state.todosList.length
+          ? Math.max(...state.todosList.map((todo) => todo.id)) + 1
+          : 0,
         value: action.payload,
         isEditing: false,
         isDone: false,
       });
-      localStorage.todosStorage = JSON.stringify(state.todos);
+      localStorage.todosStorage = JSON.stringify(state.todosList);
     },
     deleteTodo: (state, action: PayloadAction<number>) => {
-      const todo = state.todos.find((item) => item.id === action.payload);
+      const todo = state.todosList.find((item) => item.id === action.payload);
       if (todo) {
-        const todoIndex = state.todos.indexOf(todo);
-        state.todos.splice(todoIndex, 1);
+        const todoIndex = state.todosList.indexOf(todo);
+        state.todosList.splice(todoIndex, 1);
       }
-      localStorage.todosStorage = JSON.stringify(state.todos);
+      localStorage.todosStorage = JSON.stringify(state.todosList);
     },
     deleteDoneTodos: (state) => {
-      state.todos.filter((todo) => todo.isDone).forEach((todo) => {
-        const todoIndex = state.todos.indexOf(todo);
-        state.todos.splice(todoIndex, 1);
-      })
-      localStorage.todosStorage = JSON.stringify(state.todos);
+      state.todosList
+        .filter((todo) => todo.isDone)
+        .forEach((todo) => {
+          const todoIndex = state.todosList.indexOf(todo);
+          state.todosList.splice(todoIndex, 1);
+        });
+      localStorage.todosStorage = JSON.stringify(state.todosList);
     },
     updateTodoValue: (state, action: PayloadAction<UpdatedTodo>) => {
-      const todo = state.todos.find((todo) => todo.id === action.payload.id);
+      const todo = state.todosList.find((todo) => todo.id === action.payload.id);
       if (todo) {
         todo.value = action.payload.value;
         todo.isEditing = false;
       }
-      localStorage.todosStorage = JSON.stringify(state.todos);
+      localStorage.todosStorage = JSON.stringify(state.todosList);
     },
     setIsDone: (state, action: PayloadAction<number>) => {
-      const todo = state.todos.find((todo) => todo.id === action.payload);
+      const todo = state.todosList.find((todo) => todo.id === action.payload);
       if (todo) {
         todo.isDone = !todo.isDone;
       }
-      localStorage.todosStorage = JSON.stringify(state.todos);
+      localStorage.todosStorage = JSON.stringify(state.todosList);
     },
     setIsEditing: (state, action: PayloadAction<number>) => {
-      state.todos.forEach((todo) => {
+      state.todosList.forEach((todo) => {
         todo.id !== action.payload &&
           (todo.isEditing = todo.id === action.payload);
         todo.id === action.payload && (todo.isEditing = !todo.isEditing);
@@ -79,7 +83,7 @@ export const todosSlice = createSlice({
     },
     setFilter: (state, action: PayloadAction<"all" | "active" | "done">) => {
       state.filter = action.payload;
-      state.todos.forEach((todo) => (todo.isEditing = false));
+      state.todosList.forEach((todo) => (todo.isEditing = false));
     },
   },
 });

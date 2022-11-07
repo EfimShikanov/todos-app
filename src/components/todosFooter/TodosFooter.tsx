@@ -4,12 +4,12 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { deleteDoneTodos } from "../../slices/todosSlice";
 
 const TodosFooter: React.FC = () => {
-  const todos = useAppSelector((state) => state.todos.todos);
+  const todosList = useAppSelector((state) => state.todos.todosList);
   const dispatch = useAppDispatch();
 
   const getActiveTodosCount = () => {
     let count = 0;
-    todos.forEach((todo) => !todo.isDone && count++);
+    todosList.forEach((todo) => !todo.isDone && count++);
     return count;
   };
 

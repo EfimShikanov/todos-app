@@ -4,7 +4,7 @@ import TodosInput from "./components/todosInput/TodosInput";
 import TodosList from "./components/todosList/TodosList";
 import TodosFooter from "./components/todosFooter/TodosFooter";
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>todos</div>

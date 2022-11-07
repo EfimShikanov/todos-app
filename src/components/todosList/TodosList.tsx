@@ -7,7 +7,7 @@ import { Filter } from "../../app/types";
 
 const TodosList: React.FC = () => {
   const dispatch = useAppDispatch();
-  const todos = useAppSelector((state) => state.todos.todos);
+  const todosList = useAppSelector((state) => state.todos.todosList);
   const filter: Filter = useAppSelector((state) => state.todos.filter);
 
   const filterClickHandler = (value: Filter) => {
@@ -17,19 +17,19 @@ const TodosList: React.FC = () => {
   const renderTodos = () => {
     switch (filter) {
       case "all": {
-        return todos.map((todo) => {
+        return todosList.map((todo) => {
           return <TodosListItem key={todo.id} todo={todo} />;
         });
       }
       case "active": {
-        return todos
+        return todosList
           .filter((todo) => !todo.isDone)
           .map((todo) => {
             return <TodosListItem key={todo.id} todo={todo} />;
           });
       }
       case "done": {
-        return todos
+        return todosList
           .filter((todo) => todo.isDone)
           .map((todo) => {
             return <TodosListItem key={todo.id} todo={todo} />;

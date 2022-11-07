@@ -13,6 +13,6 @@ export interface UpdatedTodo {
 export type Filter = "all" | "active" | "done";
 
 export interface ApplicationState {
-  todos: Todo[];
+  todosList: Todo[];
   filter: Filter;
 }
