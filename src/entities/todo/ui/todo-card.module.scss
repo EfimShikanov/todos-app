@@ -1,0 +1,24 @@
+.todo-card {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+
+  &:has(mdui-checkbox[checked]) {
+    text-decoration: line-through;
+  }
+
+  .todo-card__data {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    p:first-child {
+      font-size: 18px;
+    }
+
+    p:last-child {
+      font-size: 20px;
+      margin-top: 8px;
+    }
+  }
+}

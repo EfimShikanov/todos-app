@@ -1,0 +1,18 @@
+mdui-layout-main.main {
+  padding: 64px 16px 16px 16px !important;
+  background: rgb(var(--mdui-color-surface-container-lowest));
+
+  .heading {
+    text-transform: capitalize;
+
+    h1 {
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    p {
+      margin-top: 4px;
+      font-size: 18px;
+    }
+  }
+}
