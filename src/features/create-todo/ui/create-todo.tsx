@@ -1,6 +1,6 @@
 import styles from './create-todo.module.scss';
 import '@mdui/icons/add.js';
-import { memo, RefObject } from 'react';
+import { FormEvent, memo, RefObject } from 'react';
 import { useForm } from '@tanstack/react-form';
 import { TodoSchema } from '@/entities/todo/model';
 import { useTodoStore } from '@/shared/store/todos.store';
@@ -53,7 +53,9 @@ export const CreateTodo = memo(function CreateTodo({
                 tabIndex={1}
                 name={field.name}
                 value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
+                onChange={(e: FormEvent<HTMLInputElement>) => {
+                  field.handleChange((e.target as HTMLInputElement).value);
+                }}
                 autoFocus
               ></mdui-text-field>
             )}
@@ -67,7 +69,9 @@ export const CreateTodo = memo(function CreateTodo({
                 tabIndex={1}
                 name={field.name}
                 value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
+                onChange={(e: FormEvent<HTMLInputElement>) =>
+                  field.handleChange((e.target as HTMLInputElement).value)
+                }
                 autoFocus
               ></mdui-text-field>
             )}
