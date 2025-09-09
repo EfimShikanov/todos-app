@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 
 import { Roboto } from 'next/font/google';
 import './globals.css';
@@ -38,7 +38,7 @@ export default function RootLayout({
         <link rel="icon" href="/icons/96x96.png" />
         <link rel="icon" href="/icons/72x72.png" />
         <link rel="icon" href="/icons/48x48.png" />
-        <link rel="manifest" href="/manifest.json" />
+        {/*<link rel="manifest" href="/manifest.json" />*/}
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <body className={`${roboto.variable}`}>
