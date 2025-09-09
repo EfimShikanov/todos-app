@@ -4,7 +4,6 @@ import { Roboto } from 'next/font/google';
 import './globals.css';
 import { ReactNode } from 'react';
 import Head from 'next/head';
-import { Metadata } from 'next';
 
 const roboto = Roboto({
   variable: '--font-roboto',
