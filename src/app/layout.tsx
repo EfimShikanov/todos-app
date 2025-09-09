@@ -40,6 +40,8 @@ export default function RootLayout({
         <link rel="icon" href="/icons/48x48.png" />
         {/*<link rel="manifest" href="/manifest.json" />*/}
         <meta name="theme-color" content="#ffffff" />
+        <title>Задачи</title>
+        <meta name="description" />
       </Head>
       <body className={`${roboto.variable}`}>
         <mdui-layout full-height>{children}</mdui-layout>

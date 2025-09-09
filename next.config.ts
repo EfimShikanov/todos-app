@@ -1,6 +1,11 @@
-import type { NextConfig } from 'next';
+import withSerwistInit from '@serwist/next';
 
-const nextConfig: NextConfig = {
+const withServist = withSerwistInit({
+  swSrc: 'app/sw.ts',
+  swDest: 'public/sw.js',
+});
+
+export default withServist({
   async headers() {
     return [
       {
@@ -25,6 +30,4 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: '/',
   },
-};
-
-export default nextConfig;
+});
