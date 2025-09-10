@@ -10,6 +10,7 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: '#B296DF',
     background_color: '#B296DF',
     description: 'Отслеживание выполнения задач',
+    categories: ['productivity', 'utilities'],
     screenshots: [
       {
         src: '/app-screenshots/narrow1.png',
