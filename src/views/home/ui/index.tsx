@@ -3,8 +3,9 @@ import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { Filter } from '@/features/filter';
 import { TodoList } from '@/widgets/todo-list';
-import { CreateTodo } from '@/features/create-todo';
+import { CreateTodo, CreateTodoFab } from '@/features/create-todo';
 import { useCallback, useRef } from 'react';
+import { UpdateTodo } from '@/features/update-todo';
 
 export default function HomePage() {
   const dialogRef = useRef<HTMLElement>(null);
@@ -27,7 +28,9 @@ export default function HomePage() {
         </header>
         <Filter />
         <TodoList toggleDialog={toggleDialog} />
-        <CreateTodo dialogRef={dialogRef} toggleDialog={toggleDialog} />
+        <CreateTodo />
+        <CreateTodoFab />
+        <UpdateTodo />
       </mdui-layout-main>
     </>
   );
