@@ -13,8 +13,11 @@ interface TodoStore {
   todos: Todo[];
   addTodo: (newTodo: Pick<Todo, 'title' | 'dueDate'>) => void;
   removeTodo: (id: string) => void;
-  updateTodo: (newTodo: Pick<Todo, 'id' | 'title'>) => void;
-  toggleTodo: (id: string) => void;
+  updateTodo: (
+    newTodo: Pick<Todo, 'id'> &
+      Partial<Pick<Todo, 'title' | 'dueDate' | 'done'>>,
+  ) => void;
+  getTodo: (id: string) => Todo | null;
   filter: TodoFilter;
   setFilter: (filter: TodoFilter) => void;
   getFilteredTodos: () => Todo[];
@@ -68,14 +71,6 @@ export const useTodoStore = create<TodoStore>()(
         }));
         localStorageService.set(TODO_STORAGE_KEY, updatedTodos);
       },
-      toggleTodo(id: string) {
-        const updatedTodos = get().todos.map((todo) =>
-          todo.id === id ? { ...todo, done: !todo.done } : todo,
-        );
-
-        set(() => ({ todos: updatedTodos }));
-        localStorageService.set(TODO_STORAGE_KEY, updatedTodos);
-      },
       getFilteredTodos() {
         const { todos, filter } = get();
         const today = new Date();
@@ -85,6 +80,9 @@ export const useTodoStore = create<TodoStore>()(
           const category = getTodoCategory(todo);
           return filter === 'ALL' ? true : filter === category;
         });
+      },
+      getTodo(id) {
+        return get().todos.find((todo) => todo.id === id) || null;
       },
     }),
     {
