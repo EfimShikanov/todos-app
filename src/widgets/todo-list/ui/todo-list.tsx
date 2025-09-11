@@ -1,9 +1,7 @@
-'use client';
-
 import { TodoCard } from '@/entities/todo';
 import styles from './todo-list.module.scss';
 import { useTodoStore } from '@/shared/store/todos.store';
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { getTodoCategory } from '@/shared/lib/todos.utils';
 import { Empty } from '@/shared/ui/empty';
 

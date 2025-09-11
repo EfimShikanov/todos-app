@@ -8,7 +8,7 @@ import { useDialogStore } from '@/shared/store/dialog.store';
 
 export const CreateTodo = memo(function CreateTodo() {
   const addTodo = useTodoStore((state) => state.addTodo);
-  const { closeDialog, openDialog } = useDialogStore();
+  const closeDialog = useDialogStore((state) => state.closeDialog);
 
   const form = useForm({
     defaultValues: {
