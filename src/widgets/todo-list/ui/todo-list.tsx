@@ -14,14 +14,7 @@ interface TodoListProps {
 export const TodoList = memo(function TodoList({
   toggleDialog,
 }: TodoListProps) {
-  const { todos, toggleTodo, filter, setFilter } = useTodoStore();
-
-  const toggleTodoHandler = useCallback(
-    (id: string) => {
-      toggleTodo(id);
-    },
-    [toggleTodo],
-  );
+  const { todos, filter, setFilter } = useTodoStore();
 
   const filteredTodos = useMemo(() => {
     if (filter === 'ALL') {
@@ -53,14 +46,8 @@ export const TodoList = memo(function TodoList({
       );
     }
 
-    return filteredTodos.map((todo) => (
-      <TodoCard
-        key={todo.id}
-        onChange={() => toggleTodoHandler(todo.id)}
-        {...todo}
-      />
-    ));
-  }, [filter, filteredTodos, setFilter, toggleDialog, toggleTodoHandler]);
+    return filteredTodos.map((todo) => <TodoCard key={todo.id} {...todo} />);
+  }, [filter, filteredTodos, setFilter, toggleDialog]);
 
   return (
     <article className={styles['todo-section']}>
