@@ -5,6 +5,7 @@ export type TodoCategory = 'TODAY' | 'OVERDUE' | 'SCHEDULED';
 export function getTodoCategory(todo: Todo): TodoCategory | null {
   const today = new Date();
   const dueDate = new Date(todo.dueDate);
+  const doneAt = todo.done ? new Date(todo.doneAt) : null;
 
   today.setHours(0, 0, 0, 0);
 
@@ -12,7 +13,7 @@ export function getTodoCategory(todo: Todo): TodoCategory | null {
     return 'TODAY';
   }
 
-  if (dueDate < today && !todo.done) {
+  if ((dueDate < today && !todo.done) || (todo.done && doneAt! > dueDate)) {
     return 'OVERDUE';
   }
 

@@ -4,7 +4,6 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { Todo } from '@/entities/todo';
 import { localStorageService } from '@/shared/lib/local-storage-service';
-import { getTodoCategory } from '@/shared/lib/todos.utils';
 import { v4 as uuid } from 'uuid';
 
 export type TodoFilter = 'ALL' | 'TODAY' | 'OVERDUE' | 'SCHEDULED';
@@ -20,7 +19,6 @@ interface TodoStore {
   getTodo: (id: string) => Todo | null;
   filter: TodoFilter;
   setFilter: (filter: TodoFilter) => void;
-  getFilteredTodos: () => Todo[];
 }
 
 const TODO_STORAGE_KEY = 'todoStorage-v2';
@@ -34,14 +32,16 @@ export const useTodoStore = create<TodoStore>()(
         return set({ filter });
       },
       addTodo(newTodo) {
+        const dateNow = new Date();
         const updatedTodos = [
           ...get().todos,
           {
             ...newTodo,
             id: uuid(),
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            createdAt: dateNow,
+            updatedAt: dateNow,
             done: false,
+            doneAt: null,
             sendNotification: false,
           },
         ];
@@ -60,9 +60,15 @@ export const useTodoStore = create<TodoStore>()(
         localStorageService.set(TODO_STORAGE_KEY, updatedTodos);
       },
       updateTodo(newTodo) {
+        const dateNow = new Date();
         const updatedTodos = get().todos.map((todo) =>
           todo.id === newTodo.id
-            ? { ...todo, ...newTodo, updatedAt: new Date() }
+            ? {
+                ...todo,
+                ...newTodo,
+                updatedAt: dateNow,
+                doneAt: newTodo.done ? dateNow : null,
+              }
             : todo,
         );
 
@@ -70,16 +76,6 @@ export const useTodoStore = create<TodoStore>()(
           todos: updatedTodos,
         }));
         localStorageService.set(TODO_STORAGE_KEY, updatedTodos);
-      },
-      getFilteredTodos() {
-        const { todos, filter } = get();
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        return todos.filter((todo) => {
-          const category = getTodoCategory(todo);
-          return filter === 'ALL' ? true : filter === category;
-        });
       },
       getTodo(id) {
         return get().todos.find((todo) => todo.id === id) || null;
