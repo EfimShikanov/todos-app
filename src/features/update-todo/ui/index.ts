@@ -1,1 +1,1 @@
-export { UpdateTodo } from './update-todo';
+export { UpdateTodoDialog } from './update-todo-dialog';

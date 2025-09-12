@@ -1,1 +1,1 @@
-export { UpdateTodo } from './ui';
+export { UpdateTodoDialog } from './ui';

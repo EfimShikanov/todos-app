@@ -6,6 +6,7 @@ interface TodoDialogProps {
   dialogName: DialogName;
   toggleDialog?: () => void;
   headline: string;
+  description?: string;
   fullscreen?: boolean;
 }
 
@@ -13,6 +14,7 @@ export const TodoDialog = memo(function TodoDialog({
   children,
   headline,
   dialogName,
+  description,
   fullscreen = false,
 }: TodoDialogProps) {
   const activeDialog = useDialogStore((state) => state.activeDialog);
@@ -21,6 +23,7 @@ export const TodoDialog = memo(function TodoDialog({
     <mdui-dialog
       fullscreen={fullscreen}
       headline={headline}
+      description={description}
       open={activeDialog === dialogName}
       close-on-overlay-click
       close-on-esc

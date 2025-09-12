@@ -1,2 +1,2 @@
-export { CreateTodo } from './create-todo';
+export { CreateTodoDialog } from './create-todo-dialog';
 export { CreateTodoFab } from './create-todo-fab';

@@ -1,65 +1,38 @@
-import { FormEvent, memo, useEffect } from 'react';
-import { TodoDialog } from '@/shared/ui/todo-dialog';
-import styles from '@/features/create-todo/ui/create-todo.module.scss';
+import styles from './create-todo.module.scss';
+import { FormEvent, memo } from 'react';
 import { useForm } from '@tanstack/react-form';
 import { TodoSchema } from '@/entities/todo/model';
 import { useTodoStore } from '@/shared/store/todos.store';
+import { TodoDialog } from '@/shared/ui/todo-dialog';
 import { useDialogStore } from '@/shared/store/dialog.store';
-import { format } from 'date-fns';
 
-export const UpdateTodo = memo(function UpdateTodo() {
-  const updateTodo = useTodoStore((state) => state.updateTodo);
-  const getTodo = useTodoStore((state) => state.getTodo);
+export const CreateTodoDialog = memo(function CreateTodo() {
+  const addTodo = useTodoStore((state) => state.addTodo);
   const closeDialog = useDialogStore((state) => state.closeDialog);
-  const selectedTodoId = useDialogStore((state) => state.selectedTodoId);
 
   const form = useForm({
     defaultValues: {
       title: '',
       dueDate: new Date().toDateString(),
     },
+    onSubmit: ({ value }) => {
+      addTodo({ ...value, dueDate: new Date(value.dueDate) });
+      closeDialog();
+    },
     validators: {
       onChange: TodoSchema,
     },
-    onSubmit({ value }) {
-      if (selectedTodoId) {
-        updateTodo({
-          ...value,
-          dueDate: new Date(value.dueDate),
-          id: selectedTodoId,
-        });
-        closeDialog();
-      }
-    },
   });
 
-  useEffect(() => {
-    if (selectedTodoId) {
-      const todo = getTodo(selectedTodoId);
-      if (todo) {
-        form.setFieldValue('title', todo.title);
-        form.setFieldValue(
-          'dueDate',
-          format(new Date(todo.dueDate), 'yyyy-MM-dd'),
-        );
-        console.log(format(new Date(todo.dueDate), 'yyyy-MM-dd'));
-      }
-    }
-  }, [form, form.state, getTodo, selectedTodoId]);
-
   return (
-    <TodoDialog
-      dialogName={'update'}
-      headline={'Редактирование задачи'}
-      fullscreen
-    >
+    <TodoDialog headline={'Создать задачу'} dialogName={'create'}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           form.handleSubmit();
         }}
         className={styles['form']}
-        id={'updateTodoForm'}
+        id={'createTodoForm'}
       >
         <form.Field name={'title'}>
           {(field) => (
@@ -95,16 +68,16 @@ export const UpdateTodo = memo(function UpdateTodo() {
       </form>
 
       <mdui-button
-        variant="outlined"
+        variant="text"
         slot="action"
         onClick={closeDialog}
         type="reset"
-        form={'updateTodoForm'}
+        form={'createTodoForm'}
       >
         Отмена
       </mdui-button>
-      <mdui-button slot="action" type="submit" form={'updateTodoForm'}>
-        Сохранить
+      <mdui-button slot="action" type="submit" form={'createTodoForm'}>
+        Создать
       </mdui-button>
     </TodoDialog>
   );
