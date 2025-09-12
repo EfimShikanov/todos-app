@@ -17,6 +17,7 @@
     border: 2px solid rgb(var(--mdui-color-on-background));
     transition: all 0.2s linear;
     text-align: left;
+    font-weight: 500;
 
     &.active {
       background: rgb(var(--mdui-color-primary-container));

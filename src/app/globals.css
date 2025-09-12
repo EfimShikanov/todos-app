@@ -14,6 +14,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+mdui-layout-main * {
+  font-family: var(--font-roboto), Arial, Helvetica, sans-serif;
+}
+
+mdui-text-field {
+  height: 56px;
+}
+
 * {
   box-sizing: border-box;
 }

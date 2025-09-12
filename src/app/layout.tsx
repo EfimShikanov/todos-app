@@ -6,6 +6,7 @@ import { Metadata, Viewport } from 'next';
 const roboto = Roboto({
   variable: '--font-roboto',
   subsets: ['cyrillic'],
+  weight: ['400', '500'],
 });
 
 export const metadata: Metadata = {
