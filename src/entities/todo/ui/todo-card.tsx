@@ -8,13 +8,12 @@ import { useDialogStore } from '@/shared/store/dialog.store';
 
 export const TodoCard = memo(function TodoCard(props: Todo) {
   const toggleTodo = useTodoStore((state) => state.updateTodo);
-  const openEditDialog = useDialogStore((state) => state.openDialog);
+  const openDialog = useDialogStore((state) => state.openDialog);
 
   return (
     <mdui-card
       className={styles['todo-card']}
-      clickable
-      onClick={() => openEditDialog('update', props.id)}
+      // onClick={() => openEditDialog('update', props.id)}
     >
       <mdui-checkbox
         onClick={(e) => e.stopPropagation()}
@@ -29,6 +28,25 @@ export const TodoCard = memo(function TodoCard(props: Todo) {
         </p>
         <p>{props.title}</p>
       </section>
+      <mdui-dropdown className={styles['todo-card__dropdown-trigger']}>
+        <mdui-button-icon slot="trigger">
+          <span className="material-symbols-rounded">more_vert</span>
+        </mdui-button-icon>
+        <mdui-menu>
+          <mdui-menu-item onClick={() => openDialog('update', props.id)}>
+            <span className="material-symbols-rounded" slot={'icon'}>
+              edit
+            </span>
+            Редактировать
+          </mdui-menu-item>
+          <mdui-menu-item onClick={() => openDialog('delete', props.id)}>
+            <span className="material-symbols-rounded" slot={'icon'}>
+              delete
+            </span>
+            Удалить
+          </mdui-menu-item>
+        </mdui-menu>
+      </mdui-dropdown>
     </mdui-card>
   );
 });
