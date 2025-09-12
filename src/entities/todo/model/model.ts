@@ -9,12 +9,12 @@ export interface BaseTodo {
   doneAt: Date | null;
 }
 
-interface TodoDone extends BaseTodo {
+export interface TodoDone extends BaseTodo {
   done: true;
   doneAt: Date;
 }
 
-interface TodoNotDone extends BaseTodo {
+export interface TodoNotDone extends BaseTodo {
   done: false;
   doneAt: null;
 }

@@ -74,19 +74,7 @@ class LocalStorageService {
       const legacyStorage = this.get<LegacyTodo[]>('todosStorage');
 
       if (legacyStorage) {
-        const migratedTodos: Todo[] = legacyStorage.map(
-          (legacyTodo: LegacyTodo) => {
-            return {
-              id: crypto.randomUUID(),
-              title: legacyTodo.value,
-              done: legacyTodo.isDone,
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              dueDate: new Date(),
-              sendNotification: false,
-            };
-          },
-        );
+        const migratedTodos: Todo[] = legacyStorage.map(migrateTodo);
 
         this.set('todoStorage-v2', migratedTodos);
         this.remove('todosStorage');
@@ -94,6 +82,31 @@ class LocalStorageService {
     } catch (error) {
       console.error(error);
     }
+  }
+}
+
+function migrateTodo(legacyTodo: LegacyTodo): Todo {
+  const commonFields = {
+    id: crypto.randomUUID(),
+    title: legacyTodo.value,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    dueDate: new Date(),
+    sendNotification: false,
+  };
+
+  if (legacyTodo.isDone) {
+    return {
+      ...commonFields, // Разворачиваем общие поля
+      doneAt: new Date(),
+      done: true,
+    };
+  } else {
+    return {
+      ...commonFields,
+      doneAt: null,
+      done: false,
+    };
   }
 }
 

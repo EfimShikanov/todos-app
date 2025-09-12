@@ -1,2 +1,2 @@
-export type { Todo, TodoStore } from './model';
+export type { Todo, TodoStore, TodoDone, TodoNotDone } from './model';
 export { TodoSchema } from './schema';

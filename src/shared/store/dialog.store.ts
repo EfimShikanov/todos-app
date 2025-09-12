@@ -8,12 +8,12 @@ interface DialogStore {
 
   // Если тип диалога update, то необходимо передать selectedTodoId, для получения данных для редактирования
   openDialog(
-    dialog: Exclude<DialogName, 'update'>,
+    dialog: Exclude<DialogName, 'create'>,
     selectedTodoId: string,
   ): void;
 
   // В остальных случаях просто передаем dialog
-  openDialog(dialog: 'update', selectedTodoId?: string | null): void;
+  openDialog(dialog: 'create', selectedTodoId?: string | null): void;
 
   closeDialog: () => void;
 }

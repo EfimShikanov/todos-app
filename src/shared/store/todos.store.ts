@@ -5,6 +5,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { Todo } from '@/entities/todo';
 import { localStorageService } from '@/shared/lib/local-storage-service';
 import { v4 as uuid } from 'uuid';
+import { TodoDone, TodoNotDone } from '@/entities/todo/model';
 
 export type TodoFilter = 'ALL' | 'TODAY' | 'OVERDUE' | 'SCHEDULED';
 
@@ -43,7 +44,7 @@ export const useTodoStore = create<TodoStore>()(
             done: false,
             doneAt: null,
             sendNotification: false,
-          },
+          } as TodoNotDone,
         ];
 
         set(() => ({
@@ -63,12 +64,12 @@ export const useTodoStore = create<TodoStore>()(
         const dateNow = new Date();
         const updatedTodos = get().todos.map((todo) =>
           todo.id === newTodo.id
-            ? {
+            ? ({
                 ...todo,
                 ...newTodo,
                 updatedAt: dateNow,
                 doneAt: newTodo.done ? dateNow : null,
-              }
+              } as TodoDone | TodoNotDone)
             : todo,
         );
 
