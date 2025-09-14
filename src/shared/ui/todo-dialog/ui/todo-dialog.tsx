@@ -1,4 +1,4 @@
-import { memo, ReactNode } from 'react';
+import { memo, ReactNode, useEffect, useRef } from 'react';
 import { DialogName, useDialogStore } from '@/shared/store/dialog.store';
 
 interface TodoDialogProps {
@@ -18,9 +18,17 @@ export const TodoDialog = memo(function TodoDialog({
   fullscreen = false,
 }: TodoDialogProps) {
   const activeDialog = useDialogStore((state) => state.activeDialog);
+  const closeDialog = useDialogStore((state) => state.closeDialog);
+
+  const dialogRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    dialogRef.current?.addEventListener('closed', closeDialog);
+  }, []);
 
   return (
     <mdui-dialog
+      ref={dialogRef}
       fullscreen={fullscreen}
       headline={headline}
       description={description}
