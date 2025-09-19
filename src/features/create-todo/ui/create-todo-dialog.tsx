@@ -17,6 +17,7 @@ export const CreateTodoDialog = memo(function CreateTodo() {
     },
     onSubmit: ({ value }) => {
       addTodo({ ...value, dueDate: new Date(value.dueDate) });
+      form.reset();
       closeDialog();
     },
     validators: {
