@@ -28,7 +28,7 @@ export default function HomePage() {
           <p>{dayAndMonth}</p>
         </header>
         <Filter />
-        <TodoList toggleDialog={toggleDialog} />
+        <TodoList />
         <CreateTodoDialog />
         <CreateTodoFab />
         <UpdateTodoDialog />

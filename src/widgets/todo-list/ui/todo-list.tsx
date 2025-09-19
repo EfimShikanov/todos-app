@@ -4,15 +4,11 @@ import { useTodoStore } from '@/shared/store/todos.store';
 import { memo, useMemo } from 'react';
 import { getTodoCategory } from '@/shared/lib/todos.utils';
 import { Empty } from '@/shared/ui/empty';
+import { useDialogStore } from '@/shared/store/dialog.store';
 
-interface TodoListProps {
-  toggleDialog: () => void;
-}
-
-export const TodoList = memo(function TodoList({
-  toggleDialog,
-}: TodoListProps) {
+export const TodoList = memo(function TodoList() {
   const { todos, filter, setFilter } = useTodoStore();
+  const openDialog = useDialogStore((state) => state.openDialog);
 
   const filteredTodos = useMemo(() => {
     if (filter === 'ALL') {
@@ -32,7 +28,7 @@ export const TodoList = memo(function TodoList({
                 Показать все
               </mdui-button>
             ) : (
-              <mdui-button onClick={toggleDialog}>
+              <mdui-button onClick={() => openDialog('create')}>
                 <span className="material-symbols-rounded" slot={'icon'}>
                   add
                 </span>
@@ -45,7 +41,7 @@ export const TodoList = memo(function TodoList({
     }
 
     return filteredTodos.map((todo) => <TodoCard key={todo.id} {...todo} />);
-  }, [filter, filteredTodos, setFilter, toggleDialog]);
+  }, [filter, filteredTodos, openDialog, setFilter]);
 
   return (
     <article className={styles['todo-section']}>
