@@ -4,7 +4,6 @@ import { DialogName, useDialogStore } from '@/shared/store/dialog.store';
 interface TodoDialogProps {
   children: ReactNode;
   dialogName: DialogName;
-  toggleDialog?: () => void;
   headline: string;
   description?: string;
   fullscreen?: boolean;
@@ -19,12 +18,11 @@ export const TodoDialog = memo(function TodoDialog({
 }: TodoDialogProps) {
   const activeDialog = useDialogStore((state) => state.activeDialog);
   const closeDialog = useDialogStore((state) => state.closeDialog);
-
   const dialogRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     dialogRef.current?.addEventListener('closed', closeDialog);
-  }, []);
+  }, [closeDialog]);
 
   return (
     <mdui-dialog

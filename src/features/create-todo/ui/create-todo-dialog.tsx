@@ -2,7 +2,7 @@ import styles from './create-todo.module.scss';
 import { FormEvent, memo } from 'react';
 import { useForm } from '@tanstack/react-form';
 import { TodoSchema } from '@/entities/todo/model';
-import { useTodoStore } from '@/shared/store/todos.store';
+import { useTodoStore } from '@/entities/todo/model';
 import { TodoDialog } from '@/shared/ui/todo-dialog';
 import { useDialogStore } from '@/shared/store/dialog.store';
 

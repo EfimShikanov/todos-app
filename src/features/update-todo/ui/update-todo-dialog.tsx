@@ -3,7 +3,7 @@ import { TodoDialog } from '@/shared/ui/todo-dialog';
 import styles from '@/features/create-todo/ui/create-todo.module.scss';
 import { useForm } from '@tanstack/react-form';
 import { TodoSchema } from '@/entities/todo/model';
-import { useTodoStore } from '@/shared/store/todos.store';
+import { useTodoStore } from '@/entities/todo/model';
 import { useDialogStore } from '@/shared/store/dialog.store';
 import { format } from 'date-fns';
 

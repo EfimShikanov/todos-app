@@ -2,7 +2,7 @@ import { Todo } from '@/entities/todo';
 import styles from './todo-card.module.scss';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { useTodoStore } from '@/shared/store/todos.store';
+import { useTodoStore } from '@/entities/todo/model';
 import { memo } from 'react';
 import { useDialogStore } from '@/shared/store/dialog.store';
 

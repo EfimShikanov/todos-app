@@ -2,7 +2,7 @@
 
 import styles from './filter.module.scss';
 import { memo, ReactNode, useMemo } from 'react';
-import { TodoFilter, useTodoStore } from '@/shared/store/todos.store';
+import { TodoFilter, useTodoStore } from '@/entities/todo/model';
 import { getTodoCategory } from '@/shared/lib/todos.utils';
 
 interface FilterCard {

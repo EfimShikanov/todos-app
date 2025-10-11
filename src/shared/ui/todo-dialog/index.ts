@@ -1,1 +1,1 @@
-export { TodoDialog } from './ui';
+export { TodoDialog } from './todo-dialog';

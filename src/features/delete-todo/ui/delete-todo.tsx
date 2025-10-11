@@ -1,7 +1,7 @@
 import { memo, useCallback } from 'react';
 import { TodoDialog } from '@/shared/ui/todo-dialog';
 import { useDialogStore } from '@/shared/store/dialog.store';
-import { useTodoStore } from '@/shared/store/todos.store';
+import { useTodoStore } from '@/entities/todo/model';
 
 export const DeleteTodoDialog = memo(function DeleteTodoDialog() {
   const closeDialog = useDialogStore((state) => state.closeDialog);
