@@ -1,13 +1,20 @@
 import { TodoCard } from '@/entities/todo';
 import styles from './todo-list.module.scss';
-import { useTodoStore } from '@/shared/store/todos.store';
+import { useTodoStore } from '@/entities/todo/model';
 import { memo, useMemo } from 'react';
 import { getTodoCategory } from '@/shared/lib/todos.utils';
 import { Empty } from '@/shared/ui/empty';
 import { useDialogStore } from '@/shared/store/dialog.store';
+import { useShallow } from 'zustand/shallow';
 
 export const TodoList = memo(function TodoList() {
-  const { todos, filter, setFilter } = useTodoStore();
+  const { todos, filter, setFilter } = useTodoStore(
+    useShallow((state) => ({
+      todos: state.todos,
+      filter: state.filter,
+      setFilter: state.setFilter,
+    })),
+  );
   const openDialog = useDialogStore((state) => state.openDialog);
 
   const filteredTodos = useMemo(() => {
