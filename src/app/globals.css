@@ -1,0 +1,66 @@
+@import 'mdui/mdui.css';
+@import 'material-symbols/rounded.css';
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-roboto), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--mdui-color-on-background);
+}
+
+mdui-layout-main * {
+  font-family: var(--font-roboto), Arial, Helvetica, sans-serif;
+}
+
+mdui-text-field {
+  height: 56px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+@media (prefers-color-scheme: light) {
+  html,
+  .mdui-theme-auto {
+    color-scheme: light;
+  }
+
+  .input-container > label.label {
+    background: rgb(var(--mdui-color-background));
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html,
+  .mdui-theme-auto {
+    color-scheme: dark;
+  }
+
+  .input-container > label.label {
+    background: rgb(var(--mdui-color-background));
+  }
+}
+
+:not(:defined) {
+  visibility: hidden;
+}
