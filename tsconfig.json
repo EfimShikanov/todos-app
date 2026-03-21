@@ -20,7 +20,11 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@entities/*": ["./src/entities/*"],
+      "@features/*": ["./src/features/*"],
+      "@views/*": ["./src/views/*"],
+      "@shared/*": ["./src/shared/*"]
     }
   },
   "include": [
