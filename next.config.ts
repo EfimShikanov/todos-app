@@ -1,33 +1,29 @@
-import withSerwistInit from '@serwist/next';
+import path from 'node:path';
 
-const withServist = withSerwistInit({
-  swSrc: 'src/app/sw.ts',
-  swDest: 'public/sw.js',
-});
-
-export default withServist({
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
-        ],
-      },
-    ];
-  },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
   turbopack: {
-    root: '/',
+    root: path.resolve(__dirname),
   },
-});
+
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
+
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
+
+  serverExternalPackages: [],
+
+  onDemandEntries: {
+    maxInactiveAge: 60 * 1000,
+    pagesBufferLength: 5,
+  },
+  allowedDevOrigins: ['192.168.0.20'],
+};
+
+export default nextConfig;

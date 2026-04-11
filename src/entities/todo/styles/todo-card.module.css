@@ -1,0 +1,89 @@
+.todo-card {
+  padding: 8px;
+  gap: 8px;
+  display: flex;
+  align-items: center;
+  background-color: var(--background-secondary);
+  border-radius: var(--border-radius);
+
+  &:has(input[type="checkbox"]:checked) .todo-card__data p {
+    text-decoration: line-through;
+    color: var(--foreground-secondary);
+  }
+
+  .todo-card__data {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+
+    p:first-child {
+      font-size: 18px;
+    }
+
+    p:last-child {
+      font-size: 20px;
+      margin-top: 8px;
+    }
+  }
+
+  .todo-card__menu {
+    margin-left: auto;
+    position: relative;
+  }
+
+  .todo-card__menu-trigger {
+    position: relative;
+    z-index: 1;
+    width: 2rem;
+    height: 2rem;
+    background-color: transparent;
+    padding: 0;
+    color: var(--accent);
+  }
+
+  .todo-card__actions-popover {
+    position: absolute;
+    inset: auto;
+    top: calc(anchor(bottom) + 0.5rem);
+    right: calc(anchor(right) - 0.5rem);
+    margin: 0;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    background-color: var(--background-popup);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 20%);
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: top right;
+    transition:
+      opacity 0.2s ease-in-out,
+      transform 0.2s ease-in-out;
+
+    &:popover-open {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+@starting-style {
+  .todo-card {
+    .todo-card__actions-popover:popover-open {
+      opacity: 0;
+      transform: scale(0);
+    }
+  }
+}
+
+@supports (transition-behavior: allow-discrete) {
+  .todo-card {
+    .todo-card__actions-popover {
+      transition:
+        opacity 0.2s ease-in-out,
+        transform 0.2s ease-in-out,
+        overlay 0.2s ease-in-out allow-discrete,
+        display 0.2s ease-in-out allow-discrete;
+    }
+  }
+}

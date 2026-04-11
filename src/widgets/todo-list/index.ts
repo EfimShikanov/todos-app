@@ -1,1 +1,1 @@
-export { TodoList } from './ui';
+export { TodoList } from './ui/todo-list';

@@ -1,0 +1,43 @@
+.filter-button {
+  height: 6rem;
+  border-radius: var(--border-radius);
+  background-color: var(--background-secondary);
+  transition: background-color 0.2s linear;
+  cursor: pointer;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  border: none;
+  text-align: left;
+
+  .filter-button__icon span {
+    color: var(--foreground);
+  }
+
+  &.filter-button--active {
+    background-color: var(--accent);
+    color: var(--background);
+
+    .filter-button__icon span {
+      color: inherit;
+    }
+  }
+
+  &:hover {
+    background-color: var(--accent-hover);
+  }
+
+  &:active {
+    background-color: var(--accent-active);
+  }
+
+  .filter-button__content {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1.15rem;
+  }
+}

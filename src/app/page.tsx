@@ -1,8 +1,7 @@
-'use client';
+import { HomePage } from '@views/home';
 
-import 'mdui';
-import dynamic from 'next/dynamic';
-
-const Home = dynamic(() => import('@/views/home/ui/index'), { ssr: false });
+async function Home() {
+  return <HomePage />;
+}
 
 export default Home;

@@ -1,24 +1,36 @@
-import { Todo } from '@/entities/todo';
-import styles from './todo-card.module.scss';
+'use client';
+
+import { type Todo, useTodoStore } from '@entities/todo';
+import { useDeleteTodoStore } from '@features/delete-todo';
+import { useUpdateTodoStore } from '@features/update-todo';
+import { Button } from '@shared/ui/button';
+import { Checkbox } from '@shared/ui/checkbox';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { useTodoStore } from '@/entities/todo/model';
-import { memo } from 'react';
-import { useDialogStore } from '@/shared/store/dialog.store';
+import styles from '../styles/todo-card.module.css';
 
-export const TodoCard = memo(function TodoCard(props: Todo) {
+type TodoCardProps = Todo & {};
+
+export function TodoCard(props: TodoCardProps) {
+  const actionsPopoverId = `todo-card-actions-${props.id}`;
+  const actionsTriggerId = `todo-card-actions-trigger-${props.id}`;
+
   const toggleTodo = useTodoStore((state) => state.updateTodo);
-  const openDialog = useDialogStore((state) => state.openDialog);
+  const openUpdateDialog = useUpdateTodoStore((state) => state.openDialog);
+  const setUpdateSelectedTodo = useUpdateTodoStore(
+    (state) => state.setSelectedTodo,
+  );
+  const openDeleteDialog = useDeleteTodoStore((state) => state.openDialog);
+  const setDeleteSelectedTodo = useDeleteTodoStore(
+    (state) => state.setSelectedTodo,
+  );
 
   return (
-    <mdui-card
-      className={styles['todo-card']}
-      // onClick={() => openEditDialog('update', props.id)}
-    >
-      <mdui-checkbox
-        onClick={(e) => e.stopPropagation()}
+    <article className={styles['todo-card']}>
+      <Checkbox
+        id={props.id}
         checked={props.done}
-        onChange={() => toggleTodo({ id: props.id, done: !props.done })}
+        onChange={(e) => toggleTodo({ id: props.id, done: e.target.checked })}
       />
       <section className={styles['todo-card__data']}>
         <p>
@@ -28,25 +40,53 @@ export const TodoCard = memo(function TodoCard(props: Todo) {
         </p>
         <p>{props.title}</p>
       </section>
-      <mdui-dropdown className={styles['todo-card__dropdown-trigger']}>
-        <mdui-button-icon slot="trigger">
+      <div className={styles['todo-card__menu']}>
+        <Button
+          id={actionsTriggerId}
+          variant={'icon'}
+          className={styles['todo-card__menu-trigger']}
+          aria-label={'Открыть меню действий'}
+          aria-haspopup={'menu'}
+          aria-controls={actionsPopoverId}
+          popoverTarget={actionsPopoverId}
+          popoverTargetAction={'toggle'}
+        >
           <span className="material-symbols-rounded">more_vert</span>
-        </mdui-button-icon>
-        <mdui-menu>
-          <mdui-menu-item onClick={() => openDialog('update', props.id)}>
-            <span className="material-symbols-rounded" slot={'icon'}>
-              edit
-            </span>
-            Редактировать
-          </mdui-menu-item>
-          <mdui-menu-item onClick={() => openDialog('delete', props.id)}>
-            <span className="material-symbols-rounded" slot={'icon'}>
-              delete
-            </span>
-            Удалить
-          </mdui-menu-item>
-        </mdui-menu>
-      </mdui-dropdown>
-    </mdui-card>
+        </Button>
+        <div
+          id={actionsPopoverId}
+          popover="auto"
+          anchor={actionsTriggerId}
+          className={styles['todo-card__actions-popover']}
+        >
+          <div>
+            <Button
+              variant={'text'}
+              onClick={() => {
+                setUpdateSelectedTodo(props.id);
+                openUpdateDialog();
+              }}
+              aria-label={'Редактировать задачу'}
+              popoverTarget={actionsPopoverId}
+              popoverTargetAction={'hide'}
+            >
+              Редактировать
+            </Button>
+            <Button
+              variant={'text'}
+              onClick={() => {
+                setDeleteSelectedTodo(props.id);
+                openDeleteDialog();
+              }}
+              aria-label={'Удалить задачу'}
+              popoverTarget={actionsPopoverId}
+              popoverTargetAction={'hide'}
+            >
+              Удалить
+            </Button>
+          </div>
+        </div>
+      </div>
+    </article>
   );
-});
+}

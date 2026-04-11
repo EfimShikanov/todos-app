@@ -1,1 +1,1 @@
-export { LoadingScreen } from './loading-screen';
+export { LoadingScreen } from './ui/loading-screen';

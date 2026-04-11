@@ -1,11 +1,11 @@
 import { Roboto } from 'next/font/google';
 import './globals.css';
-import { ReactNode } from 'react';
-import { Metadata, Viewport } from 'next';
+import type { Metadata, Viewport } from 'next';
+import type { ReactNode } from 'react';
 
 const roboto = Roboto({
   variable: '--font-roboto',
-  subsets: ['cyrillic'],
+  subsets: ['cyrillic', 'latin'],
   weight: ['400', '500'],
 });
 
@@ -54,14 +54,16 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="ru" className={'mdui-theme-auto'}>
+    <html lang="ru">
       <head>
         <title>Задачи </title>
         <link rel="manifest" href="manifest.webmanifest" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add,calendar_clock,delete,delete_history,edit,grid_view,inbox,more_vert,progress_activity,today&display=swap"
+        />
       </head>
-      <body className={`${roboto.variable}`}>
-        <mdui-layout full-height>{children}</mdui-layout>
-      </body>
+      <body className={`${roboto.variable}`}>{children}</body>
     </html>
   );
 }

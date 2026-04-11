@@ -1,6 +1,7 @@
 'use client';
 
-import { Todo } from '@/entities/todo';
+import type { Todo } from '@entities/todo';
+import { generateId } from './generate-id';
 
 interface LegacyTodo {
   id: number;
@@ -69,7 +70,7 @@ class LocalStorageService {
   /**
    * Выполняет миграцию со старой версии приложения
    */
-  public migrateToV2(): void {
+  private migrateToV2(): void {
     try {
       const legacyStorage = this.get<LegacyTodo[]>('todosStorage');
 
@@ -87,7 +88,7 @@ class LocalStorageService {
 
 function migrateTodo(legacyTodo: LegacyTodo): Todo {
   const commonFields = {
-    id: crypto.randomUUID(),
+    id: generateId(),
     title: legacyTodo.value,
     createdAt: new Date(),
     updatedAt: new Date(),

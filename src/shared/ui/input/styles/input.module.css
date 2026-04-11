@@ -1,0 +1,33 @@
+.input {
+  width: 100%;
+
+  .input__field {
+    width: 100%;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--foreground);
+    transition: border-color 0.2s linear;
+    height: 3rem;
+    padding: 0.5rem 1rem;
+    outline: none;
+    font-size: 1rem;
+    background-color: var(--background-secondary);
+
+    &:hover {
+      border-color: var(--accent-hover);
+    }
+
+    &:focus {
+      border-color: var(--accent);
+    }
+
+    &:not(:empty) {
+      border-color: var(--accent-active);
+    }
+  }
+
+  .input__label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+}

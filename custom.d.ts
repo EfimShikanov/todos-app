@@ -1,1 +1,7 @@
-/// <reference types="mdui/jsx.en.d.ts" />
+import 'react';
+
+declare module 'react' {
+  interface HTMLAttributes {
+    anchor?: string;
+  }
+}

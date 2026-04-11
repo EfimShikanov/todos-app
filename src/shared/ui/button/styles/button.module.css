@@ -1,0 +1,50 @@
+.button {
+  --height: 2.5rem;
+  background-color: var(--accent);
+  color: var(--background);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.5rem calc(var(--height) / 2);
+  border-radius: calc(var(--height) / 2);
+  height: var(--height);
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s linear;
+  font-size: 1rem;
+  gap: 0.5rem;
+
+  &:hover {
+    background-color: var(--accent-hover);
+  }
+
+  &:active {
+    background-color: var(--accent-active);
+  }
+
+  &.button--icon {
+    padding: 0.5rem;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--border-radius);
+  }
+
+  &.button--fab {
+    position: fixed;
+  }
+
+  &.button--text {
+    background-color: transparent;
+    color: var(--accent);
+
+    &:hover {
+      background-color: var(--background-secondary);
+    }
+
+    &:active {
+      color: var(--accent-active);
+    }
+  }
+}

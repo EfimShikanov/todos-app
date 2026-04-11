@@ -1,31 +1,23 @@
-import styles from './home.module.scss';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
-import { Filter } from '@/features/filter';
-import { TodoList } from '@/widgets/todo-list';
-import { CreateTodoDialog, CreateTodoFab } from '@/features/create-todo';
-import { UpdateTodoDialog } from '@/features/update-todo';
-import { DeleteTodoDialog } from '@/features/delete-todo';
+'use client';
 
-export default function HomePage() {
-  const dateNow = new Date();
-  const dayOfWeek = format(dateNow, 'iiii', { locale: ru });
-  const dayAndMonth = format(dateNow, 'd MMMM', { locale: ru });
+import { Header } from '@features/header';
+import dynamic from 'next/dynamic';
+import { LoadingScreen } from '@/shared/ui/loading-screen';
+import styles from '../styles/home.module.css';
 
+const HomeContent = dynamic(
+  () => import('./home-content').then((m) => m.HomeContent),
+  {
+    ssr: false,
+    loading: () => <LoadingScreen />,
+  },
+);
+
+export function HomePage() {
   return (
-    <>
-      <mdui-layout-main className={styles['main']}>
-        <header className={styles['heading']}>
-          <h1>{dayOfWeek}</h1>
-          <p>{dayAndMonth}</p>
-        </header>
-        <Filter />
-        <TodoList />
-        <CreateTodoDialog />
-        <CreateTodoFab />
-        <UpdateTodoDialog />
-        <DeleteTodoDialog />
-      </mdui-layout-main>
-    </>
+    <main className={styles.main}>
+      <Header />
+      <HomeContent />
+    </main>
   );
 }

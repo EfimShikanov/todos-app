@@ -1,15 +1,8 @@
 'use client';
 
-import styles from './filter.module.scss';
-import { memo, ReactNode, useMemo } from 'react';
-import { TodoFilter, useTodoStore } from '@/entities/todo/model';
-import { getTodoCategory } from '@/shared/lib/todos.utils';
-
-interface FilterCard {
-  label: string;
-  value: TodoFilter;
-  icon: ReactNode;
-}
+import type { FilterCard } from '../model/filter.types';
+import styles from '../styles/filter.module.css';
+import { FilterButton } from './filter-button';
 
 const CARDS: FilterCard[] = [
   {
@@ -34,48 +27,12 @@ const CARDS: FilterCard[] = [
   },
 ];
 
-export const Filter = memo(function Filter() {
-  const { filter, setFilter, todos } = useTodoStore();
-
-  const todosCounts = useMemo(() => {
-    const counts: Record<TodoFilter, number> = {
-      ALL: todos.length,
-      TODAY: 0,
-      OVERDUE: 0,
-      SCHEDULED: 0,
-    };
-
-    todos.forEach((todo) => {
-      const category = getTodoCategory(todo);
-      if (category) {
-        counts[category]++;
-      }
-    });
-
-    return counts;
-  }, [todos]);
-
-  const cards = useMemo(() => {
-    return CARDS.map((card) => {
-      const className =
-        `${styles['filter-item']} ${card.value === filter ? styles['active'] : ''}`.trim();
-      return (
-        <button
-          key={`filter_${card.value}`}
-          className={className}
-          onClick={() => setFilter(card.value)}
-        >
-          {card.icon}
-          <div className={styles['filter-item__data']}>
-            <p className={styles['filter-item__name']}>{card.label}</p>
-            <p className={styles['filter-item__value']}>
-              {todosCounts[card.value]}
-            </p>
-          </div>
-        </button>
-      );
-    });
-  }, [filter, setFilter, todosCounts]);
-
-  return <article className={styles['filter']}>{cards}</article>;
-});
+export function Filter() {
+  return (
+    <section className={styles.filter}>
+      {CARDS.map((card) => (
+        <FilterButton key={card.value} {...card} />
+      ))}
+    </section>
+  );
+}

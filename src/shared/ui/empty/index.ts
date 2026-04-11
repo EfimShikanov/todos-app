@@ -1,1 +1,1 @@
-export { Empty } from './empty';
+export { Empty } from './ui/empty';

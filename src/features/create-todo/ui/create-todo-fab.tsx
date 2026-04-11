@@ -1,15 +1,21 @@
-import styles from './create-todo.module.scss';
-import { memo } from 'react';
-import { useDialogStore } from '@/shared/store/dialog.store';
+'use client';
 
-export const CreateTodoFab = memo(function CreateTodoFab() {
-  const openDialog = useDialogStore((state) => state.openDialog);
+import { Button } from '@shared/ui/button';
+import { useCreateTodoStore } from '../lib/create-todo.store';
+
+export function CreateTodoFab() {
+  const openDialog = useCreateTodoStore((state) => state.openDialog);
 
   return (
-    <mdui-fab className={styles['fab']} onClick={() => openDialog('create')}>
+    <Button
+      fab
+      position={{ bottom: '1rem', right: '1rem' }}
+      variant={'icon'}
+      onClick={openDialog}
+    >
       <span className="material-symbols-rounded" slot={'icon'}>
         add
       </span>
-    </mdui-fab>
+    </Button>
   );
-});
+}

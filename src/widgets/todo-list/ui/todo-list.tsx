@@ -1,61 +1,49 @@
-import { TodoCard } from '@/entities/todo';
-import styles from './todo-list.module.scss';
-import { useTodoStore } from '@/entities/todo/model';
-import { memo, useMemo } from 'react';
-import { getTodoCategory } from '@/shared/lib/todos.utils';
-import { Empty } from '@/shared/ui/empty';
-import { useDialogStore } from '@/shared/store/dialog.store';
-import { useShallow } from 'zustand/shallow';
+'use client';
 
-export const TodoList = memo(function TodoList() {
-  const { todos, filter, setFilter } = useTodoStore(
-    useShallow((state) => ({
-      todos: state.todos,
-      filter: state.filter,
-      setFilter: state.setFilter,
-    })),
-  );
-  const openDialog = useDialogStore((state) => state.openDialog);
+import { type Todo, TodoCard, useFilteredTodos } from '@entities/todo';
+import { useCreateTodoStore } from '@features/create-todo';
+import { useFilterStore } from '@features/filter';
+import { Button } from '@shared/ui/button';
+import { Empty } from '@shared/ui/empty';
+import { useMemo } from 'react';
+import styles from '../styles/todo-list.module.css';
 
-  const filteredTodos = useMemo(() => {
-    if (filter === 'ALL') {
-      return todos;
-    }
-    return todos.filter((todo) => getTodoCategory(todo) === filter);
-  }, [filter, todos]);
+export function TodoList() {
+  const { filter, setFilter } = useFilterStore();
+  const openCreateDialog = useCreateTodoStore((state) => state.openDialog);
+
+  const todos = useFilteredTodos(filter);
 
   const todosElements = useMemo(() => {
-    if (!filteredTodos.length) {
+    if (!todos.length) {
       return (
         <Empty
           title={'Тут пока ничего нет'}
           actions={
             filter !== 'ALL' ? (
-              <mdui-button onClick={() => setFilter('ALL')}>
-                Показать все
-              </mdui-button>
+              <Button onClick={() => setFilter('ALL')}>Показать все</Button>
             ) : (
-              <mdui-button onClick={() => openDialog('create')}>
+              <Button onClick={openCreateDialog}>
                 <span className="material-symbols-rounded" slot={'icon'}>
                   add
                 </span>
                 Создать
-              </mdui-button>
+              </Button>
             )
           }
         />
       );
     }
 
-    return filteredTodos.map((todo) => <TodoCard key={todo.id} {...todo} />);
-  }, [filter, filteredTodos, openDialog, setFilter]);
+    return todos.map((todo: Todo) => <TodoCard key={todo.id} {...todo} />);
+  }, [filter, openCreateDialog, setFilter, todos]);
 
   return (
     <article className={styles['todo-section']}>
       <h2>Задачи</h2>
-      <article className={styles['todo-section__list']}>
+      <section className={styles['todo-section__list']}>
         {todosElements}
-      </article>
+      </section>
     </article>
   );
-});
+}
