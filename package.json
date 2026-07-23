@@ -9,20 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tanstack/react-form": "^1.29.0",
-    "date-fns": "^4.1.0",
-    "next": "^16.2.3",
+    "@tanstack/react-form": "^1.33.2",
+    "date-fns": "^4.4.0",
+    "next": "^16.2.11",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "zod": "^4.3.6",
-    "zustand": "^5.0.12"
+    "zod": "^4.4.3",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.11",
-    "@types/node": "^25.6.0",
+    "@types/node": "^25.9.5",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "overrides": {
     "@types/react": "19.2.14",
