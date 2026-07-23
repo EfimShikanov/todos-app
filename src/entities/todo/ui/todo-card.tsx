@@ -5,41 +5,63 @@ import { useDeleteTodoStore } from '@features/delete-todo';
 import { useUpdateTodoStore } from '@features/update-todo';
 import { Button } from '@shared/ui/button';
 import { Checkbox } from '@shared/ui/checkbox';
+import { DropdownMenu } from '@shared/ui/dropdown-menu';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { type ChangeEventHandler, useCallback } from 'react';
 import styles from '../styles/todo-card.module.css';
 
 type TodoCardProps = Todo & {};
 
-export function TodoCard(props: TodoCardProps) {
-  const actionsPopoverId = `todo-card-actions-${props.id}`;
-  const actionsTriggerId = `todo-card-actions-trigger-${props.id}`;
+export function TodoCard({ id, dueDate, title, done }: TodoCardProps) {
+  const actionsPopoverId = `todo-card-actions-${id}`;
+  const actionsTriggerId = `todo-card-actions-trigger-${id}`;
 
   const toggleTodo = useTodoStore((state) => state.updateTodo);
-  const openUpdateDialog = useUpdateTodoStore((state) => state.openDialog);
-  const setUpdateSelectedTodo = useUpdateTodoStore(
-    (state) => state.setSelectedTodo,
+  const [openUpdateDialog, setUpdateSelectedTodo] = useUpdateTodoStore(
+    (state) => [state.openDialog, state.setSelectedTodo],
   );
-  const openDeleteDialog = useDeleteTodoStore((state) => state.openDialog);
-  const setDeleteSelectedTodo = useDeleteTodoStore(
-    (state) => state.setSelectedTodo,
+  const [openDeleteDialog, setDeleteSelectedTodo] = useDeleteTodoStore(
+    (state) => [state.openDialog, state.setSelectedTodo],
   );
 
+  const handleToggleTodo: ChangeEventHandler<
+    HTMLInputElement,
+    HTMLInputElement
+  > = useCallback(
+    (e) => {
+      toggleTodo({ id: id, done: e.target.checked });
+    },
+    [id, toggleTodo],
+  );
+
+  const handleDeleteTodo = useCallback(() => {
+    setDeleteSelectedTodo(id);
+    openDeleteDialog();
+  }, [openDeleteDialog, id, setDeleteSelectedTodo]);
+
+  const handleUpdateTodo = useCallback(() => {
+    setUpdateSelectedTodo(id);
+    openUpdateDialog();
+  }, [openUpdateDialog, id, setUpdateSelectedTodo]);
+
   return (
-    <article className={styles['todo-card']}>
+    <li className={styles['todo-card']}>
       <Checkbox
-        id={props.id}
-        checked={props.done}
-        onChange={(e) => toggleTodo({ id: props.id, done: e.target.checked })}
+        id={id}
+        checked={done}
+        onChange={handleToggleTodo}
+        aria-labelledby={`todo-title-${id}`}
+        aria-describedby={`todo-date-${id}`}
       />
-      <section className={styles['todo-card__data']}>
-        <p>
-          {format(props.dueDate, 'd MMMM yyyy', {
+      <div className={styles['todo-card__data']}>
+        <time dateTime={format(dueDate, 'yyyy-MM-dd')} id={`todo-date-${id}`}>
+          {format(dueDate, 'd MMMM yyyy', {
             locale: ru,
           })}
-        </p>
-        <p>{props.title}</p>
-      </section>
+        </time>
+        <p id={`todo-title-${id}`}>{title}</p>
+      </div>
       <div className={styles['todo-card__menu']}>
         <Button
           id={actionsTriggerId}
@@ -51,42 +73,29 @@ export function TodoCard(props: TodoCardProps) {
           popoverTarget={actionsPopoverId}
           popoverTargetAction={'toggle'}
         >
-          <span className="material-symbols-rounded">more_vert</span>
+          <span aria-hidden={'true'} className="material-symbols-rounded">
+            more_vert
+          </span>
         </Button>
-        <div
+        <DropdownMenu
+          items={[
+            {
+              key: 'edit',
+              label: 'Редактировать',
+              popoverTarget: actionsPopoverId,
+              onClick: handleUpdateTodo,
+            },
+            {
+              key: 'delete',
+              label: 'Удалить',
+              popoverTarget: actionsPopoverId,
+              onClick: handleDeleteTodo,
+            },
+          ]}
           id={actionsPopoverId}
-          popover="auto"
           anchor={actionsTriggerId}
-          className={styles['todo-card__actions-popover']}
-        >
-          <div>
-            <Button
-              variant={'text'}
-              onClick={() => {
-                setUpdateSelectedTodo(props.id);
-                openUpdateDialog();
-              }}
-              aria-label={'Редактировать задачу'}
-              popoverTarget={actionsPopoverId}
-              popoverTargetAction={'hide'}
-            >
-              Редактировать
-            </Button>
-            <Button
-              variant={'text'}
-              onClick={() => {
-                setDeleteSelectedTodo(props.id);
-                openDeleteDialog();
-              }}
-              aria-label={'Удалить задачу'}
-              popoverTarget={actionsPopoverId}
-              popoverTargetAction={'hide'}
-            >
-              Удалить
-            </Button>
-          </div>
-        </div>
+        />
       </div>
-    </article>
+    </li>
   );
 }

@@ -4,4 +4,9 @@
   grid-template-rows: repeat(2, 95px);
   gap: 8px;
   margin-top: 16px;
+  border: none;
+
+  legend {
+    display: none;
+  }
 }

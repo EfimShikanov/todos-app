@@ -12,8 +12,13 @@ export function CreateTodoFab() {
       position={{ bottom: '1rem', right: '1rem' }}
       variant={'icon'}
       onClick={openDialog}
+      aria-label={'Создать задачу'}
     >
-      <span className="material-symbols-rounded" slot={'icon'}>
+      <span
+        className="material-symbols-rounded"
+        slot={'icon'}
+        aria-hidden={'true'}
+      >
         add
       </span>
     </Button>

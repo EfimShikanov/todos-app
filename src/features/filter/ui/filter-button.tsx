@@ -1,27 +1,30 @@
 'use client';
 
-import { useTodosCounts } from '@entities/todo';
+import { useVibration } from '@shared/ui/button';
 import { useFilterStore } from '../model/filter.store';
 import type { FilterCard } from '../model/filter.types';
 import styles from '../styles/filter-button.module.css';
 
-export function FilterButton({ label, icon, value }: FilterCard) {
+export function FilterButton({ label, icon, value, name, count }: FilterCard) {
   const { filter, setFilter } = useFilterStore();
-  const counts = useTodosCounts();
-  const className =
-    `${styles['filter-button']} ${filter === value ? styles['filter-button--active'] : ''}`.trim();
+  const handleChange = useVibration(() => setFilter(value));
 
   return (
-    <button
-      className={className}
-      type={'button'}
-      onClick={() => setFilter(value)}
-    >
-      <div className={styles['filter-button__icon']}>{icon}</div>
-      <div className={styles['filter-button__content']}>
-        <span>{label}</span>
-        <span>{counts[value]}</span>
+    <label className={styles['filter-button']}>
+      <input
+        type="radio"
+        name={name}
+        checked={filter === value}
+        onChange={handleChange}
+        aria-describedby={`count-${value}`}
+      />
+      <div className={styles['filter-button__icon']} aria-hidden={'true'}>
+        {icon}
       </div>
-    </button>
+      <div className={styles['filter-button__content']} id={`count-${value}`}>
+        <span>{label}</span>
+        <span>{count}</span>
+      </div>
+    </label>
   );
 }

@@ -39,11 +39,9 @@ export function TodoList() {
   }, [filter, openCreateDialog, setFilter, todos]);
 
   return (
-    <article className={styles['todo-section']}>
+    <section className={styles['todo-section']}>
       <h2>Задачи</h2>
-      <section className={styles['todo-section__list']}>
-        {todosElements}
-      </section>
-    </article>
+      <ul className={styles['todo-section__list']}>{todosElements}</ul>
+    </section>
   );
 }

@@ -5,4 +5,6 @@ export type FilterCard = {
   label: string;
   value: TodoFilter;
   icon: ReactNode;
+  name: string;
+  count: number;
 };

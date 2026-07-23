@@ -11,12 +11,17 @@
   align-items: flex-start;
   border: none;
   text-align: left;
+  color: var(--foreground);
+
+  & > input[type="radio"] {
+    display: none;
+  }
 
   .filter-button__icon span {
     color: var(--foreground);
   }
 
-  &.filter-button--active {
+  &:has(input[type="radio"]:checked) {
     background-color: var(--accent);
     color: var(--background);
 
